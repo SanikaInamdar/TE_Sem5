@@ -1,0 +1,740 @@
+Last login: Mon Nov 14 15:41:06 on console
+sanikainamdar@Sanikas-MacBook-Air ~ % monsh
+zsh: command not found: monsh
+sanikainamdar@Sanikas-MacBook-Air ~ % mongosh
+Current Mongosh Log ID:	6372147da7d80f3bc85c2c99
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0
+Using MongoDB:		5.0.11
+Using Mongosh:		1.6.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2022-11-14T15:41:13.008+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+------
+   Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+   metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+   
+   The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+   and anyone you share the URL with. MongoDB may use this information to make product
+   improvements and to suggest MongoDB products and deployment options to you.
+   
+   To enable free monitoring, run the following command: db.enableFreeMonitoring()
+   To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+------
+
+test> show databases
+admin   40.00 KiB
+config  72.00 KiB
+demo    72.00 KiB
+local   72.00 KiB
+myDb    40.00 KiB
+test> use demo
+switched to db demo
+demo> show collection
+MongoshInvalidInputError: [COMMON-10001] 'collection' is not a valid argument for "show".
+demo> show collections
+Students
+demo> db.Students.find()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    marks: { maths: 22, sci: 28 }
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.createIndex({age::-1})
+Uncaught:
+SyntaxError: Unexpected token (1:29)
+
+> 1 | db.Students.createIndex({age::-1})
+    |                              ^
+  2 |
+
+demo> db.Students.createIndex({age:-1})
+age_-1
+demo> db.Students.find():
+Uncaught:
+SyntaxError: Missing semicolon. (1:18)
+
+> 1 | db.Students.find():
+    |                   ^
+  2 |
+
+demo> db.Students.find()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    marks: { maths: 22, sci: 28 }
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find().createIndex({age:-1})
+TypeError: db.Students.find().createIndex is not a function
+demo> db.Students.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { age: -1 }, name: 'age_-1' }
+]
+demo> db.Students.createIndex({age:1,name:-1})
+age_1_name_-1
+demo> db.Students.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { age: -1 }, name: 'age_-1' },
+  { v: 2, key: { age: 1, name: -1 }, name: 'age_1_name_-1' }
+]
+demo> db.Students.dropIndex({age:-1})
+{ nIndexesWas: 3, ok: 1 }
+demo> db.Students.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { age: 1, name: -1 }, name: 'age_1_name_-1' }
+]
+demo> db.Students.createIndex({name:-1},{unique:true})
+name_-1
+demo> db.Students.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { age: 1, name: -1 }, name: 'age_1_name_-1' },
+  { v: 2, key: { name: -1 }, name: 'name_-1', unique: true }
+]
+demo> db.Students.insertOne({name:"Rohan", age:25, dept:"entc"})
+MongoServerError: E11000 duplicate key error collection: demo.Students index: name_-1 dup key: { name: "Rohan" }
+demo> db.Students.getIndexStats({index:name}0
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:38)
+
+> 1 | db.Students.getIndexStats({index:name}0
+    |                                       ^
+  2 |
+
+demo> db.Students.getIndexStats({index:name})
+ReferenceError: name is not defined
+demo> db.Students.getIndexStats({index":name"})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:32)
+
+> 1 | db.Students.getIndexStats({index":name"})
+    |                                 ^
+  2 |
+
+demo> db.Students.getIndexStats({index:"name"})
+TypeError: db.Students.getIndexStats is not a function
+demo> 
+
+demo> db.Students.aggregate( [ { $indexStats: { } } ] )
+[
+  {
+    name: 'age_1_name_-1',
+    key: { age: 1, name: -1 },
+    host: 'Sanikas-MacBook-Air.local:27017',
+    accesses: { ops: Long("0"), since: ISODate("2022-11-14T10:44:02.931Z") },
+    spec: { v: 2, key: { age: 1, name: -1 }, name: 'age_1_name_-1' }
+  },
+  {
+    name: '_id_',
+    key: { _id: 1 },
+    host: 'Sanikas-MacBook-Air.local:27017',
+    accesses: { ops: Long("0"), since: ISODate("2022-11-14T10:11:13.049Z") },
+    spec: { v: 2, key: { _id: 1 }, name: '_id_' }
+  },
+  {
+    name: 'name_-1',
+    key: { name: -1 },
+    host: 'Sanikas-MacBook-Air.local:27017',
+    accesses: { ops: Long("0"), since: ISODate("2022-11-14T10:48:15.952Z") },
+    spec: { v: 2, unique: true, key: { name: -1 }, name: 'name_-1' }
+  }
+]
+demo> db.Students.updateOne({name:"Sanika"},{$set:{money:155}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.find({name:"Sanika"});
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    marks: { maths: 22, sci: 28 },
+    money: 155
+  }
+]
+demo> db.Students.updateOne({name:"Rohan"},{$set:{money:165}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.updateOne({name:"Malhar"},{$set:{money:120}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.updateOne({name:"Sharvi"},{$set:{money:80,marks:{maths:25,sci:18}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.find({name:"Sharvi"});
+[
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it',
+    marks: { maths: 25, sci: 18 },
+    money: 80
+  }
+]
+demo> db.Students.updateOne({name:"Rohan"},{$set:{marks:{maths:20,sci:18}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.updateOne({name:"Malhar"},{$set:{marks:{maths:27,sci:19}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.updateOne({name:"Ruturaj"},{$set:{money:200,marks:{maths:25,sci:18}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.updateOne({name:"Atharv"},{$set:{money:180,marks:{maths:23,sci:15}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.find().pretty()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    marks: { maths: 22, sci: 28 },
+    money: 155
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp',
+    money: 165,
+    marks: { maths: 20, sci: 18 }
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it',
+    money: 120,
+    marks: { maths: 27, sci: 19 }
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it',
+    marks: { maths: 25, sci: 18 },
+    money: 80
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc',
+    marks: { maths: 23, sci: 15 },
+    money: 180
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it',
+    marks: { maths: 25, sci: 18 },
+    money: 200
+  }
+]
+demo> db.Students.createOne({name:"Dinesh", age:"20", div:"2", dept:"entc"}0
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:69)
+
+> 1 | db.Students.createOne({name:"Dinesh", age:"20", div:"2", dept:"entc"}0
+    |                                                                      ^
+  2 |
+
+demo> db.Students.createOne({name:"Dinesh", age:"20", div:"2", dept:"entc"})
+TypeError: db.Students.createOne is not a function
+demo> db.Students.insertOne({name:"Dinesh", age:"20", div:"2", dept:"entc"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("637222cca7d80f3bc85c2c9b")
+}
+demo> db.Students.insertOne({name:"Mrunmay", age:"19", div:"2", dept:"entc"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("637222d9a7d80f3bc85c2c9c")
+}
+demo> db.Students.find().pretty()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    marks: { maths: 22, sci: 28 },
+    money: 155
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp',
+    money: 165,
+    marks: { maths: 20, sci: 18 }
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it',
+    money: 120,
+    marks: { maths: 27, sci: 19 }
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it',
+    marks: { maths: 25, sci: 18 },
+    money: 80
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc',
+    marks: { maths: 23, sci: 15 },
+    money: 180
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it',
+    marks: { maths: 25, sci: 18 },
+    money: 200
+  },
+  {
+    _id: ObjectId("637222cca7d80f3bc85c2c9b"),
+    name: 'Dinesh',
+    age: '20',
+    div: '2',
+    dept: 'entc'
+  },
+  {
+    _id: ObjectId("637222d9a7d80f3bc85c2c9c"),
+    name: 'Mrunmay',
+    age: '19',
+    div: '2',
+    dept: 'entc'
+  }
+]
+demo> db.Students.updateOne({name:"Dinesh"},{$set:{money:130,marks:{maths:25,sci:18}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.updateOne({name:"Mrunmay"},{$set:{money:75,marks:{maths:25,sci:18}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.aggregate([{$group:{_id:"$name",totalMoney:{$sum:"$money"}}}]) 
+[
+  { _id: 'Malhar', totalMoney: 120 },
+  { _id: 'Sharvi', totalMoney: 80 },
+  { _id: 'Mrunmay', totalMoney: 75 },
+  { _id: 'Dinesh', totalMoney: 130 },
+  { _id: 'Rohan', totalMoney: 165 },
+  { _id: 'Sanika', totalMoney: 155 },
+  { _id: 'Atharv', totalMoney: 180 },
+  { _id: 'Ruturaj', totalMoney: 200 }
+]
+demo> db.Students.aggregate([{$group:{name:"$name",totalMoney:{$sum:"$money"}}}])
+MongoServerError: The field 'name' must be an accumulator object
+demo> db.Students.aggregate([{$group:{_id:"$name",totalMarks:{$sum:"$marks"}}}]) 
+[
+  { _id: 'Atharv', totalMarks: 0 },
+  { _id: 'Dinesh', totalMarks: 0 },
+  { _id: 'Sanika', totalMarks: 0 },
+  { _id: 'Ruturaj', totalMarks: 0 },
+  { _id: 'Malhar', totalMarks: 0 },
+  { _id: 'Sharvi', totalMarks: 0 },
+  { _id: 'Mrunmay', totalMarks: 0 },
+  { _id: 'Rohan', totalMarks: 0 }
+]
+demo> 
+
+demo> db.Students.aggregate([{$group:{_id:"$name",totalMarks:{$sum:["$marks.maths","$marks.sci"]}}}])
+MongoServerError: The $sum accumulator is a unary operator
+demo> db.Students.aggregate([{$group:{_id:"$name",totalMarks:{$sum:["$marks.maths"]}}}])
+MongoServerError: The $sum accumulator is a unary operator
+demo> db.Students.aggregate([{$group:{_id:"$name",totalMarks:{$sum:"$marks.maths"}}}])
+[
+  { _id: 'Ruturaj', totalMarks: 25 },
+  { _id: 'Malhar', totalMarks: 27 },
+  { _id: 'Sanika', totalMarks: 22 },
+  { _id: 'Atharv', totalMarks: 23 },
+  { _id: 'Dinesh', totalMarks: 25 },
+  { _id: 'Rohan', totalMarks: 20 },
+  { _id: 'Sharvi', totalMarks: 25 },
+  { _id: 'Mrunmay', totalMarks: 25 }
+]
+demo> db.Students.aggregate([{$group:{_id:"$div",divwise_totalmoney:{$sum:"$div"}}}]) 
+[
+  { _id: '2', divwise_totalmoney: 0 },
+  { _id: '1', divwise_totalmoney: 0 },
+  { _id: '3', divwise_totalmoney: 0 }
+]
+demo> db.Students.aggregate([{$group:{_id:"$div",divwise_totalmoney:{$sum:"$money"}}}]) 
+[
+  { _id: '1', divwise_totalmoney: 320 },
+  { _id: '3', divwise_totalmoney: 180 },
+  { _id: '2', divwise_totalmoney: 605 }
+]
+demo> db.Students.aggregate([{$match:{dept:"it"}}{$group:{_id:"$div",divwise_totalmoney:{$sum:"$money"}}}]) 
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:43)
+
+> 1 | db.Students.aggregate([{$match:{dept:"it"}}{$group:{_id:"$div",divwise_totalmoney:{$sum:"$money"}}}]) 
+    |                                            ^
+  2 |
+
+demo> db.Students.aggregate([{$match:{dept:"it"}},{$group:{_id:"$div",divwise_totalmoney:{$sum:"$money"}}}]) 
+[ { _id: '2', divwise_totalmoney: 400 } ]
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$group:{_id:"$div",divwise_totalmoney:{$sum:"$money"}}}]) 
+[
+  { _id: '2', divwise_totalmoney: 410 },
+  { _id: '1', divwise_totalmoney: 320 }
+]
+demo> db.Students.find()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    marks: { maths: 22, sci: 28 },
+    money: 155
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp',
+    money: 165,
+    marks: { maths: 20, sci: 18 }
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it',
+    money: 120,
+    marks: { maths: 27, sci: 19 }
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it',
+    marks: { maths: 25, sci: 18 },
+    money: 80
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc',
+    marks: { maths: 23, sci: 15 },
+    money: 180
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it',
+    marks: { maths: 25, sci: 18 },
+    money: 200
+  },
+  {
+    _id: ObjectId("637222cca7d80f3bc85c2c9b"),
+    name: 'Dinesh',
+    age: '20',
+    div: '2',
+    dept: 'entc',
+    marks: { maths: 25, sci: 18 },
+    money: 130
+  },
+  {
+    _id: ObjectId("637222d9a7d80f3bc85c2c9c"),
+    name: 'Mrunmay',
+    age: '19',
+    div: '2',
+    dept: 'entc',
+    marks: { maths: 25, sci: 18 },
+    money: 75
+  }
+]
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$group:{_id:"$div",divwise_totalmoney:{$sum:"$money"}}},{$sort:{div:1}}]) 
+[
+  { _id: '1', divwise_totalmoney: 320 },
+  { _id: '2', divwise_totalmoney: 410 }
+]
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$group:{_id:"$div",divwise_totalmoney:{$sum:"$money"}}},{$sort:{div:-1}}]) 
+[
+  { _id: '2', divwise_totalmoney: 410 },
+  { _id: '1', divwise_totalmoney: 320 }
+]
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$group:{_id:"$div",divwise_totalmoney:{$sum:"$money"}}},{$sort:{age:-1}}]) 
+[
+  { _id: '1', divwise_totalmoney: 320 },
+  { _id: '2', divwise_totalmoney: 410 }
+]
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$group:{_id:"$name",totalmarks:{$sum:["marks.maths","marks.sci"]}}}]) 
+MongoServerError: The $sum accumulator is a unary operator
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$project:{_id:"$name",totalmarks:{$sum:["marks.maths","marks.sci"]}}}]) 
+[
+  { _id: 'Sanika', totalmarks: 0 },
+  { _id: 'Rohan', totalmarks: 0 },
+  { _id: 'Dinesh', totalmarks: 0 },
+  { _id: 'Sharvi', totalmarks: 0 },
+  { _id: 'Ruturaj', totalmarks: 0 }
+]
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$project:{_id:"$name",totalmarks:{$sum:["$marks.maths","$marks.sci"]}}}]) 
+[
+  { _id: 'Sanika', totalmarks: 50 },
+  { _id: 'Rohan', totalmarks: 38 },
+  { _id: 'Dinesh', totalmarks: 43 },
+  { _id: 'Sharvi', totalmarks: 43 },
+  { _id: 'Ruturaj', totalmarks: 43 }
+]
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$group:{_id:"$name",totalmarks:{$sum:["$marks.maths","$marks.sci"]}}}]) 
+MongoServerError: The $sum accumulator is a unary operator
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$project:{_id:"$name",totalmarks:{$sum:["$marks.maths","$marks.sci"]}}}]) 
+[
+  { _id: 'Sanika', totalmarks: 50 },
+  { _id: 'Rohan', totalmarks: 38 },
+  { _id: 'Dinesh', totalmarks: 43 },
+  { _id: 'Sharvi', totalmarks: 43 },
+  { _id: 'Ruturaj', totalmarks: 43 }
+]
+demo> db.Students.aggregate([{$match:{age:{$gt:"19"}}},{$project:{_id:"$name",totalmarks:{$sum:["$marks.maths","$marks.sci"]}}}]
+... 
+demo> db.Students.aggreagate([{$match:{div:"2"}},{$group:{_id:"$name",dept_name:{$eq:"$dept"}}}])
+TypeError: db.Students.aggreagate is not a function
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$name", dept_name: { $eq: "$dept" } } }])
+MongoServerError: unknown group operator '$eq'
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$name", dept_name: { $eq: "it" } } }])
+MongoServerError: unknown group operator '$eq'
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$name", dept_name: { $eq: "it" } } }
+... db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$name", dept_name: { $eq: "it" } } }
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$dept",total_markse: { $avg:["$marks.maths","$marks.sci"] } } }])
+MongoServerError: The $avg accumulator is a unary operator
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $project: { _id: "$dept", total_markse: { $avg: ["$marks.maths", "$marks.sci"] } } }])
+[
+  { _id: 'it', total_markse: 23 },
+  { _id: 'it', total_markse: 21.5 },
+  { _id: 'it', total_markse: 21.5 },
+  { _id: 'entc', total_markse: 21.5 },
+  { _id: 'entc', total_markse: 21.5 }
+]
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $project: { _id: "$dept", total_markse: { $avg: ["$marks.maths", "$marks.sci"] }
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$dept", total_markse: { $add: ["$marks.maths", "$marks.sci"] } } }])
+MongoServerError: The $add accumulator is a unary operator
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $project: { _id: "$dept", total_markse: { $add: ["$marks.maths", "$marks.sci"] } } }])
+[
+  { _id: 'it', total_markse: 46 },
+  { _id: 'it', total_markse: 43 },
+  { _id: 'it', total_markse: 43 },
+  { _id: 'entc', total_markse: 43 },
+  { _id: 'entc', total_markse: 43 }
+]
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$dept", total_markse: { $add: ["$marks.maths] } } }])
+Uncaught:
+SyntaxError: Unterminated string constant. (1:98)
+
+> 1 | db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$dept", total_markse: { $add: ["$marks.maths] } } }])
+    |                                                                                                   ^
+  2 |
+
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$dept", total_markse: { $add: ["$marks.maths"] } } }])
+MongoServerError: The $add accumulator is a unary operator
+demo> db.Students.aggregate([{ $match: { div: "2" } }, { $group: { _id: "$dept", total_markse: { $add: ["$marks.maths"] } } }])

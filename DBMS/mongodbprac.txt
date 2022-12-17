@@ -1,0 +1,723 @@
+
+demo>  show collections
+
+demo> db
+demo
+demo> db.createCollection("Students")
+{ ok: 1 }
+demo> show databases
+admin   40.00 KiB
+config  72.00 KiB
+demo     8.00 KiB
+local   72.00 KiB
+demo> db.Students.insert({
+... 
+... 
+demo> db.Students.find()
+
+demo> db.Students.insertOne({name:"Sanika", age: "20", rollno: "31135", div: "1",dept:"comp"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("636fb0764da34ecd0e926889")
+}
+demo> db.Students.insertOne({name:"Rohan", age: "20", rollno: "31126", div: "1",dept:"comp"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("636fb0984da34ecd0e92688a")
+}
+demo> db.Students.insertOne({name:"Malhar", age: "17", rollno: "31216", div: "2",dept:"it"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("636fb0dc4da34ecd0e92688b")
+}
+demo> db.Students.insertOne({name:"Sharvi", age: "21", rollno: "31226", div: "2",dept:"it"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("636fb0f44da34ecd0e92688c")
+}
+demo> db.Students.find()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({div:1})
+
+demo> db.Students.find({div:"1"})
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  }
+]
+demo> db.Students.find({div:"1"}).count()
+(node:12844) [MONGODB DRIVER] Warning: cursor.count is deprecated and will be removed in the next major version, please use `collection.estimatedDocumentCount` or `collection.countDocuments` instead 
+(Use `node --trace-warnings ...` to show where the warning was created)
+2
+demo> db.Students.find().sort({age:1})
+[
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find().sort({age:-1})
+[
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find().sort({name:-1})
+[
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find().sort({name:1})
+[
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find().sort()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.insertMany({name:"Atharv", age:"19", rollno:"31302", div:"3", dept:"entc"}, {name:"Ruturaj", age:"21", rollno:"31229", div:"2", dept:"it"})
+MongoInvalidArgumentError: Argument "docs" must be an array of documents
+demo> db.Students.insertMany([{name:"Atharv", age:"19", rollno:"31302", div:"3", dept:"entc"}, {name:"Ruturaj", age:"21", rollno:"31229", div:"2", dept:"it"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("636fb4904da34ecd0e92688d"),
+    '1': ObjectId("636fb4904da34ecd0e92688e")
+  }
+}
+demo> db.Students.find()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({div:1})
+
+demo> db.Students.find({div:"1"})
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  }
+]
+
+demo> db.Students.find({div:"2"})
+
+[
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({div:"2",age:"21"})
+[
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({div:"2",age:"21"},{name:1, dept:1})
+[
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({div:"2",age:"21"},{name:1, dept:1}).count()
+2
+demo> db.Students.find({div:"2",age:"21"},{name:1, dept:1}).limit(1)
+[
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({div:"2",age:"21"},{name:1, dept:1}).sort({name:1}).limit(1)
+[
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({age:{$gt:20}})
+
+demo> db.Students.find({age:{$gt:"20"}})
+[
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({$or:[{age:{$gt:"20"}},{div:{$gt:"1"}}]})
+[
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({$and:[{age:{$gt:"18"}},{div:{$in:["2","3"]}}]})
+[
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.find({$and:[{age:{$gt:"18"}},{div:{$nin:["2","3"]}}]})
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  }
+]
+demo> db.Students.update({name:"Sanika"},{$set:{subject:"maths"}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.find()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    subject: 'maths'
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+demo> db.Students.update({name:"Sanika"},{$set:{marks:{maths:20,eng:25, sci:28}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.find({name:"Sanika"})
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    subject: 'maths',
+    marks: { maths: 20, eng: 25, sci: 28 }
+  }
+]
+db.Students.update({name:"Sanika"},{$inc:{"marks.maths":2}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.find({name:"Sanika"})
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    subject: 'maths',
+    marks: { maths: 22, eng: 25, sci: 28 }
+  }
+]
+
+demo> db.Students.updateOne({},{$unset:{subject:""}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+demo> db.Students.find()
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    marks: { maths: 22, eng: 25, sci: 28 }
+  },
+  {
+    _id: ObjectId("636fb0984da34ecd0e92688a"),
+    name: 'Rohan',
+    age: '20',
+    rollno: '31126',
+    div: '1',
+    dept: 'comp'
+  },
+  {
+    _id: ObjectId("636fb0dc4da34ecd0e92688b"),
+    name: 'Malhar',
+    age: '17',
+    rollno: '31216',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb0f44da34ecd0e92688c"),
+    name: 'Sharvi',
+    age: '21',
+    rollno: '31226',
+    div: '2',
+    dept: 'it'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688d"),
+    name: 'Atharv',
+    age: '19',
+    rollno: '31302',
+    div: '3',
+    dept: 'entc'
+  },
+  {
+    _id: ObjectId("636fb4904da34ecd0e92688e"),
+    name: 'Ruturaj',
+    age: '21',
+    rollno: '31229',
+    div: '2',
+    dept: 'it'
+  }
+]
+
+db.Students.update({},{$unset:{"marks.eng":""}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.Students.find({name:"Sanika"})
+[
+  {
+    _id: ObjectId("636fb0764da34ecd0e926889"),
+    name: 'Sanika',
+    age: '20',
+    rollno: '31135',
+    div: '1',
+    dept: 'comp',
+    marks: { maths: 22, sci: 28 }
+  }
+]
+
+

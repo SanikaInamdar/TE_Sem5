@@ -1,0 +1,160 @@
+demo> db.Students.explain()
+Explainable(demo.Students)
+demo> db.Students.explain().aggregate([{$group:{_id:"$dept",total_money:{$sum:"$money"}}}])
+{
+  explainVersion: '1',
+  stages: [
+    {
+      '$cursor': {
+        queryPlanner: {
+          namespace: 'demo.Students',
+          indexFilterSet: false,
+          parsedQuery: {},
+          queryHash: '7F554EC4',
+          planCacheKey: '99E2DB1B',
+          maxIndexedOrSolutionsReached: false,
+          maxIndexedAndSolutionsReached: false,
+          maxScansToExplodeReached: false,
+          winningPlan: {
+            stage: 'PROJECTION_SIMPLE',
+            transformBy: { dept: 1, money: 1, _id: 0 },
+            inputStage: { stage: 'COLLSCAN', direction: 'forward' }
+          },
+          rejectedPlans: []
+        }
+      }
+    },
+    { '$group': { _id: '$dept', total_money: { '$sum': '$money' } } }
+  ],
+  serverInfo: {
+    host: 'Sanikas-MacBook-Air.local',
+    port: 27017,
+    version: '5.0.11',
+    gitVersion: 'd08c3c41c105cde798ca934e3ac3426ac11b57c3'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600
+  },
+  command: {
+    aggregate: 'Students',
+    pipeline: [
+      { '$group': { _id: '$dept', total_money: { '$sum': '$money' } } }
+    ],
+    cursor: {},
+    '$db': 'demo'
+  },
+  ok: 1
+}
+demo> db.Students.aggregate([{$group:{_id:"$dept",total_money:{$sum:"$money"}}}])
+[
+  { _id: 'entc', total_money: 385 },
+  { _id: 'comp', total_money: 320 },
+  { _id: 'it', total_money: 400 }
+]
+demo> db.Students.aggregate([{$group:{_id:"$dept",total_money:{$sum:"$money"}}},{$sort:{total_money:1}}])
+[
+  { _id: 'comp', total_money: 320 },
+  { _id: 'entc', total_money: 385 },
+  { _id: 'it', total_money: 400 }
+]
+demo> db.Students.aggregate([{$group:{_id:"$dept",total_money:{$sum:"$money"}}},{$sort:{total_money:-1}}])
+[
+  { _id: 'it', total_money: 400 },
+  { _id: 'entc', total_money: 385 },
+  { _id: 'comp', total_money: 320 }
+]
+demo> db.Students.aggregate([{$match:{dept:{$in:["it","comp"]}}},{$group:{_id:"$dept",total_money:{$sum:"$money"}}},{$sort:{total_money:-1}}])
+[ { _id: 'it', total_money: 400 }, { _id: 'comp', total_money: 320 } ]
+demo> db.Students.aggregate([{$match:{dept:{$in:["it","comp"]}}},{$group:{_id:"$dept",total_money:{$sum:"$money"}}},{$sort:{total_money:-1}}]).pretty()
+[ { _id: 'it', total_money: 400 }, { _id: 'comp', total_money: 320 } ]
+demo> db.Students.aggregate([{$match:{dept:{$in:["it","entc"]}}},{$group:{_id:"$dept",total_money:{$sum:"$money"}}},{$sort:{total_money:-1}}]).pretty()
+[ { _id: 'it', total_money: 400 }, { _id: 'entc', total_money: 385 } ]
+demo> db.Students.aggregate([{$match:{dept:{$in:["it","entc"]}}},{$group:{_id:"$dept",total_money:{$sum:"$money"}}},{$sort:{total_money:1}}]).pretty()
+[ { _id: 'entc', total_money: 385 }, { _id: 'it', total_money: 400 } ]
+demo> db.Students.explain().aggregate([{$match:{dept:{$in:["it","entc"]}}},{$group:{_id:"$dept",total_money:{$sum:"$money"}}},{$sort:{total_money:1}}]).pretty()
+TypeError: db.Students.e ... :1}}]).pretty is not a function
+demo> db.Students.explain().aggregate([{$match:{dept:{$in:["it","entc"]}}},{$group:{_id:"$dept",total_money:{$sum:"$money"}}},{$sort:{total_money:1}}])
+{
+  explainVersion: '1',
+  stages: [
+    {
+      '$cursor': {
+        queryPlanner: {
+          namespace: 'demo.Students',
+          indexFilterSet: false,
+          parsedQuery: { dept: { '$in': [ 'entc', 'it' ] } },
+          queryHash: '77DD4430',
+          planCacheKey: '71CD0DB8',
+          maxIndexedOrSolutionsReached: false,
+          maxIndexedAndSolutionsReached: false,
+          maxScansToExplodeReached: false,
+          winningPlan: {
+            stage: 'PROJECTION_SIMPLE',
+            transformBy: { dept: 1, money: 1, _id: 0 },
+            inputStage: {
+              stage: 'COLLSCAN',
+              filter: { dept: { '$in': [ 'entc', 'it' ] } },
+              direction: 'forward'
+            }
+          },
+          rejectedPlans: []
+        }
+      }
+    },
+    { '$group': { _id: '$dept', total_money: { '$sum': '$money' } } },
+    { '$sort': { sortKey: { total_money: 1 } } }
+  ],
+  serverInfo: {
+    host: 'Sanikas-MacBook-Air.local',
+    port: 27017,
+    version: '5.0.11',
+    gitVersion: 'd08c3c41c105cde798ca934e3ac3426ac11b57c3'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600
+  },
+  command: {
+    aggregate: 'Students',
+    pipeline: [
+      {
+        '$match': { dept: { '$in': [ 'it', 'entc' ] } }
+      },
+      { '$group': { _id: '$dept', total_money: { '$sum': '$money' } } },
+      { '$sort': { total_money: 1 } }
+    ],
+    cursor: {},
+    '$db': 'demo'
+  },
+  ok: 1
+}
+demo> db.Students.distinct("dept")
+[ 'comp', 'entc', 'it' ]
+demo> db.Students.distinct("age")
+[ '17', '19', '20', '21' ]
+demo> db.Students.distinct("div")
+[ '1', '2', '3' ]
+demo> db.Students.distinct("marks")
+[
+  { maths: 20, sci: 18 },
+  { maths: 22, sci: 28 },
+  { maths: 23, sci: 15 },
+  { maths: 25, sci: 18 },
+  { maths: 27, sci: 19 }
+]
+demo> db.Students.distinct("marks.sci")
+[ 15, 18, 19, 28 ]
+demo> 
